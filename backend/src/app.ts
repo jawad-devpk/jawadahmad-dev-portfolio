@@ -58,7 +58,8 @@ if (env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.get("/api/health", (_req, res) => {
+// app.get("/api/health", (_req, res) => {
+app.get("/", (_req, res) => {
   res.status(200).json({
     success: true,
     message: "Backend is running",
