@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "auth-system-project",
     subtitle: "Authentication System",
     slug: "auth-project",
-    category: "Web-Development",
+    category: "web-development",
     categoryLabel: "Web Development",
     shortDescription:
       "A secure authentication system with signup, login, JWT-based protected profile, password hashing, and email-based password reset flow.",
@@ -51,7 +51,7 @@ export const projects: Project[] = [
     title: "Social Smart AI - Full-Stack Social Media App",
     subtitle: "Modern Social Platform with Real-Time Chat",
     slug: "social-smart-ai",
-    category: "Full Stack development",
+    category: "full-stack-development",
     categoryLabel: "Full Stack Development",
     shortDescription:
       "Social Smart AI is a full-stack social media platform with user authentication, posts, likes, comments, follow system, real-time chat, notifications, and modern dark UI.",
