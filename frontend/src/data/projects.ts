@@ -51,7 +51,7 @@ export const projects: Project[] = [
     title: "Social Smart AI - Full-Stack Social Media App",
     subtitle: "Modern Social Platform with Real-Time Chat",
     slug: "social-smart-ai",
-    category: "full-stack-development",
+    category: "web-development",
     categoryLabel: "Full Stack Development",
     shortDescription:
       "Social Smart AI is a full-stack social media platform with user authentication, posts, likes, comments, follow system, real-time chat, notifications, and modern dark UI.",
@@ -193,29 +193,5 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/jawad-devpk/student-management-system",
   },
 
-  // {
-  //   id: 5,
-  //   title: "Pets Veta Platform",
-  //   subtitle: "Pet Care Full Stack Website",
-  //   slug: "pets-veta-platform",
-  //   category: "web-development",
-  //   categoryLabel: "Web Development",
-  //   shortDescription:
-  //     "A pet care web platform with pet owner profile, doctor appointment UI, seller screens and responsive dashboard modules.",
-  //   description:
-  //     "Pets Veta is a pet care platform with appointment booking UI, pet owner profile, seller dashboard, responsive cards and reusable TypeScript components.",
-  //   coverImage: "/projects/image11.png",
-  //   images: ["/projects/image12.png"],
-  //   techStack: ["React", "TypeScript", "Tailwind CSS"],
-  //   features: [
-  //     "Pet profile",
-  //     "Appointment UI",
-  //     "Seller dashboard",
-  //     "Responsive layout",
-  //   ],
-  //   role: "Frontend Developer",
-  //   year: "2026",
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  // },
+ 
 ];
