@@ -57,7 +57,7 @@ const socialLinks = [
   {
     id: 3,
     label: "LinkedIn",
-    href: "#",
+    href: "linkedin.com/in/jawad-ahmad-060459407",
     icon: FaLinkedinIn,
   },
 ];
