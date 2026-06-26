@@ -182,7 +182,6 @@
 //     `,
 //   });
 // }
-
 import { Resend } from "resend";
 
 type ContactMessage = {
@@ -230,7 +229,7 @@ export async function sendContactNotification(contact: ContactMessage) {
     timeZone: "Asia/Karachi",
   });
 
-  const { error } = await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: mailFrom,
     to: [mailTo],
     replyTo: contact.email,
@@ -302,6 +301,9 @@ Submitted At: ${contact.createdAt.toISOString()}
   });
 
   if (error) {
-    throw new Error(error.message);
+    console.error("Resend email failed:", error);
+    return;
   }
+
+  console.log("Contact email sent successfully:", data?.id);
 }
