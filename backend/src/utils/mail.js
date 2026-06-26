@@ -1,20 +1,6 @@
-import dns from "node:dns";
 import nodemailer from "nodemailer";
 import { env, isEmailConfigured } from "../config/env.js";
-
-dns.setDefaultResultOrder("ipv4first");
-
-type ContactMessage = {
-  name: string;
-  email: string;
-  location: string;
-  budget: string;
-  subject: string;
-  message: string;
-  createdAt: Date;
-};
-
-function escapeHtml(value: string) {
+function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -22,56 +8,40 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
-
-export async function sendContactNotification(contact: ContactMessage) {
+export async function sendContactNotification(contact) {
   if (!isEmailConfigured) {
     console.log("Email is not configured. Contact message saved without email.");
     return;
   }
-
-  const smtpPort = Number(env.SMTP_PORT) || 587;
+  const smtpHost = env.SMTP_HOST;
+  const smtpUser = env.SMTP_USER;
+  const smtpPass = env.SMTP_PASS;
+  const mailFrom = env.MAIL_FROM;
+  const mailTo = env.MAIL_TO;
 
   const transporter = nodemailer.createTransport({
     host: env.SMTP_HOST,
-    port: smtpPort,
-
-    // 465 = SSL true, 587 = STARTTLS false
-    secure: smtpPort === 465,
-    requireTLS: smtpPort === 587,
-
-    // Railway/Gmail IPv6 issue fix
-    family: 4,
-
+    port: Number(env.SMTP_PORT),
+    secure: Number(env.SMTP_PORT) === 587,
     auth: {
       user: env.SMTP_USER,
       pass: env.SMTP_PASS,
     },
-
-    tls: {
-      servername: env.SMTP_HOST,
-    },
-
-    connectionTimeout: 60000,
-    greetingTimeout: 60000,
-    socketTimeout: 60000,
   });
-
   const safeName = escapeHtml(contact.name);
   const safeEmail = escapeHtml(contact.email);
   const safeLocation = escapeHtml(contact.location);
   const safeBudget = escapeHtml(contact.budget);
   const safeSubject = escapeHtml(contact.subject);
   const safeMessage = escapeHtml(contact.message).replaceAll("\n", "<br />");
-
   const submittedAt = contact.createdAt.toLocaleString("en-PK", {
     dateStyle: "medium",
     timeStyle: "short",
     timeZone: "Asia/Karachi",
   });
-
   await transporter.sendMail({
-    from: env.MAIL_FROM,
-    to: env.MAIL_TO,
+    from: mailFrom,
+    to: mailTo,
     replyTo: contact.email,
     subject: `New Portfolio Contact: ${contact.subject}`,
     text: `
@@ -183,3 +153,4 @@ Submitted At: ${contact.createdAt.toISOString()}
     `,
   });
 }
+//# sourceMappingURL=mail.js.map

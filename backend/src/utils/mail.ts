@@ -1,7 +1,8 @@
+import dns from "node:dns/promises";
 import nodemailer from "nodemailer";
 import { env, isEmailConfigured } from "../config/env.js";
 
-type ContactMailPayload = {
+type ContactMessage = {
   name: string;
   email: string;
   location: string;
@@ -20,7 +21,7 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
-export async function sendContactNotification(contact: ContactMailPayload) {
+export async function sendContactNotification(contact: ContactMessage) {
   if (!isEmailConfigured) {
     console.log(
       "Email is not configured. Contact message saved without email.",
@@ -28,20 +29,34 @@ export async function sendContactNotification(contact: ContactMailPayload) {
     return;
   }
 
-  const smtpHost = env.SMTP_HOST as string;
-  const smtpUser = env.SMTP_USER as string;
-  const smtpPass = env.SMTP_PASS as string;
-  const mailFrom = env.MAIL_FROM as string;
-  const mailTo = env.MAIL_TO as string;
+  const smtpPort = Number(env.SMTP_PORT) || 587;
+
+  // Force Gmail SMTP to IPv4 because Railway is failing on IPv6.
+  const smtpAddress = await dns.lookup(env.SMTP_HOST, {
+    family: 4,
+  });
 
   const transporter = nodemailer.createTransport({
-    host: smtpHost,
-    port: env.SMTP_PORT,
-    secure: env.SMTP_PORT === 465,
+    host: smtpAddress.address,
+    port: smtpPort,
+
+    // Gmail: 587 = STARTTLS, 465 = SSL
+    secure: smtpPort === 465,
+    requireTLS: smtpPort === 587,
+
     auth: {
-      user: smtpUser,
-      pass: smtpPass,
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASS,
     },
+
+    // Required because host is IPv4 but certificate belongs to smtp.gmail.com
+    tls: {
+      servername: env.SMTP_HOST,
+    },
+
+    connectionTimeout: 60000,
+    greetingTimeout: 60000,
+    socketTimeout: 60000,
   });
 
   const safeName = escapeHtml(contact.name);
@@ -50,6 +65,7 @@ export async function sendContactNotification(contact: ContactMailPayload) {
   const safeBudget = escapeHtml(contact.budget);
   const safeSubject = escapeHtml(contact.subject);
   const safeMessage = escapeHtml(contact.message).replaceAll("\n", "<br />");
+
   const submittedAt = contact.createdAt.toLocaleString("en-PK", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -57,8 +73,8 @@ export async function sendContactNotification(contact: ContactMailPayload) {
   });
 
   await transporter.sendMail({
-    from: mailFrom,
-    to: mailTo,
+    from: env.MAIL_FROM,
+    to: env.MAIL_TO,
     replyTo: contact.email,
     subject: `New Portfolio Contact: ${contact.subject}`,
     text: `
@@ -81,7 +97,6 @@ Submitted At: ${contact.createdAt.toISOString()}
           <tr>
             <td align="center">
               <table width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 18px 45px rgba(15,23,42,0.12);">
-                
                 <tr>
                   <td style="background:linear-gradient(135deg,#111820,#1B242E 55%,#7C3AED);padding:30px 28px;color:#ffffff;">
                     <p style="margin:0 0 10px 0;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#c4b5fd;">
@@ -161,7 +176,6 @@ Submitted At: ${contact.createdAt.toISOString()}
                     </p>
                   </td>
                 </tr>
-
               </table>
             </td>
           </tr>
