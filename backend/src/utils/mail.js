@@ -1,49 +1,58 @@
 import nodemailer from "nodemailer";
 import { env, isEmailConfigured } from "../config/env.js";
 function escapeHtml(value) {
-    return value
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 export async function sendContactNotification(contact) {
-    if (!isEmailConfigured) {
-        console.log("Email is not configured. Contact message saved without email.");
-        return;
-    }
-    const smtpHost = env.SMTP_HOST;
-    const smtpUser = env.SMTP_USER;
-    const smtpPass = env.SMTP_PASS;
-    const mailFrom = env.MAIL_FROM;
-    const mailTo = env.MAIL_TO;
-    const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: env.SMTP_PORT,
-        secure: env.SMTP_PORT === 465,
-        auth: {
-            user: smtpUser,
-            pass: smtpPass,
-        },
-    });
-    const safeName = escapeHtml(contact.name);
-    const safeEmail = escapeHtml(contact.email);
-    const safeLocation = escapeHtml(contact.location);
-    const safeBudget = escapeHtml(contact.budget);
-    const safeSubject = escapeHtml(contact.subject);
-    const safeMessage = escapeHtml(contact.message).replaceAll("\n", "<br />");
-    const submittedAt = contact.createdAt.toLocaleString("en-PK", {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZone: "Asia/Karachi",
-    });
-    await transporter.sendMail({
-        from: mailFrom,
-        to: mailTo,
-        replyTo: contact.email,
-        subject: `New Portfolio Contact: ${contact.subject}`,
-        text: `
+  if (!isEmailConfigured) {
+    console.log("Email is not configured. Contact message saved without email.");
+    return;
+  }
+  const smtpHost = env.SMTP_HOST;
+  const smtpUser = env.SMTP_USER;
+  const smtpPass = env.SMTP_PASS;
+  const mailFrom = env.MAIL_FROM;
+  const mailTo = env.MAIL_TO;
+  // const transporter = nodemailer.createTransport({
+  //     host: smtpHost,
+  //     port: env.SMTP_PORT,
+  //     secure: env.SMTP_PORT === 465,
+  //     auth: {
+  //         user: smtpUser,
+  //         pass: smtpPass,
+  //     },
+  // });
+  const transporter = nodemailer.createTransport({
+    host: env.SMTP_HOST,
+    port: Number(env.SMTP_PORT),
+    secure: Number(env.SMTP_PORT) === 465,
+    auth: {
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASS,
+    },
+  });
+  const safeName = escapeHtml(contact.name);
+  const safeEmail = escapeHtml(contact.email);
+  const safeLocation = escapeHtml(contact.location);
+  const safeBudget = escapeHtml(contact.budget);
+  const safeSubject = escapeHtml(contact.subject);
+  const safeMessage = escapeHtml(contact.message).replaceAll("\n", "<br />");
+  const submittedAt = contact.createdAt.toLocaleString("en-PK", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Karachi",
+  });
+  await transporter.sendMail({
+    from: mailFrom,
+    to: mailTo,
+    replyTo: contact.email,
+    subject: `New Portfolio Contact: ${contact.subject}`,
+    text: `
 New portfolio contact message
 
 Name: ${contact.name}
@@ -57,7 +66,7 @@ ${contact.message}
 
 Submitted At: ${contact.createdAt.toISOString()}
     `,
-        html: `
+    html: `
       <div style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;color:#111827;">
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f7fb;padding:28px 12px;">
           <tr>
@@ -150,6 +159,6 @@ Submitted At: ${contact.createdAt.toISOString()}
         </table>
       </div>
     `,
-    });
+  });
 }
 //# sourceMappingURL=mail.js.map

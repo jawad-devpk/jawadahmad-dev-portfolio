@@ -12,6 +12,7 @@ import contactRoutes from "./modules/contact/contact.routes.js";
 import aiRoutes from "./modules/ai/ai.routes.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 const contactRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
