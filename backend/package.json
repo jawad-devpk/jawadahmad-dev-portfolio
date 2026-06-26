@@ -24,6 +24,7 @@
     "morgan": "^1.11.0",
     "nodemailer": "^9.0.1",
     "pg": "^8.22.0",
+    "resend": "^6.16.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
