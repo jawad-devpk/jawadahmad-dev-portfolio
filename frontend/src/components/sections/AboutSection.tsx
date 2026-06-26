@@ -134,14 +134,14 @@ export default function AboutSection() {
                   <SquarePen size={18} />
                 </Link>
 
-                <a
+                {/* <a
                   href="/jawad-dev-cv.pdf"
                   download
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/12 bg-transparent px-6 py-3 text-[15px] font-extrabold text-white transition-all duration-300 hover:border-purple-500/40 hover:bg-white/5"
                 >
                   Download CV
                   <Download size={18} />
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
