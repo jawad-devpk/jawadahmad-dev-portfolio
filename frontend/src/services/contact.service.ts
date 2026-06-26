@@ -24,7 +24,8 @@ type ContactErrorResponse = {
 
 type ContactApiResponse = ContactSuccessResponse | ContactErrorResponse;
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function getApiErrorMessage(data: ContactErrorResponse) {
   if (data.errors) {
@@ -41,7 +42,7 @@ function getApiErrorMessage(data: ContactErrorResponse) {
 export async function submitContactForm(
   payload: ContactFormPayload,
 ): Promise<ContactSuccessResponse> {
-  const response = await fetch(`${API_URL}/contact`, {
+  const response = await fetch(`${API_BASE_URL}/api/contact`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
