@@ -37,8 +37,8 @@ export default function ProjectsSection() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-[13px] font-semibold leading-7 text-[#AAB3BE] sm:mt-5 sm:text-[16px] sm:leading-8">
-            Explore my latest projects and creative work. Each project
-            represents a unique challenge and solution.
+            Explore my latest projects, showcasing modern design, practical
+            solutions, and real-world development experience.
           </p>
         </div>
 
