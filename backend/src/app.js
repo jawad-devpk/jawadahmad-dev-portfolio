@@ -47,7 +47,7 @@ if (env.NODE_ENV === "development") {
 app.get("/api/health", (_req, res) => {
     res.status(200).json({
         success: true,
-        message: "Backend is running",
+        message: "Jawad portfolio Backend is running",
     });
 });
 app.use("/api/contact", contactRateLimiter, contactRoutes);
