@@ -135,7 +135,7 @@ export default function AboutSection() {
                 </Link>
 
                 <a
-                  href="/Jawad-Ahmad-CV.pdf"
+                  href="/jawad-dev-cv.pdf"
                   download
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/12 bg-transparent px-6 py-3 text-[15px] font-extrabold text-white transition-all duration-300 hover:border-purple-500/40 hover:bg-white/5"
                 >
