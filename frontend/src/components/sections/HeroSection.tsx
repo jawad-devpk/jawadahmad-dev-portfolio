@@ -6,7 +6,7 @@ import Container from "../common/Container";
 import GradientButton from "../common/GradientButton";
 import TechMarquee from "./TechMarquee";
 import { siteInfo } from "../../data/siteInfo";
-import heroImage from "../../assets/my.png";
+import heroImage from "../../assets/photo.png"
 
 type BadgeCardProps = {
   type: "experience" | "code";

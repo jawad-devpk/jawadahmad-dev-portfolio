@@ -38,7 +38,7 @@ export const contactSocialLinks = [
   {
     id: 3,
     label: "LinkedIn",
-    href: "#",
+    href: "https://www.linkedin.com/in/jawad-ahmad-060459407",
     icon: FaLinkedinIn,
   },
 ];

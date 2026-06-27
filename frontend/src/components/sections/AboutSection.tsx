@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import profileImage from "../../assets/my.png";
+import profileImage from "../../assets/photo.png";
 
 const processSteps = [
   {
@@ -57,7 +57,7 @@ const socialLinks = [
   {
     id: 3,
     label: "LinkedIn",
-    href: "linkedin.com/in/jawad-ahmad-060459407",
+    href: "https://www.linkedin.com/in/jawad-ahmad-060459407",
     icon: FaLinkedinIn,
   },
 ];
